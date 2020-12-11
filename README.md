@@ -5,7 +5,7 @@ For Admin view
 ------------------------------
 Email: AdminView@RetroGamer.com
 Password: 123456Aa
--------------------------------
+
 For User view
 -------------------------------
 Email: UserView@RetroGamer.com
