@@ -1,0 +1,41 @@
+﻿@model RegisterViewModel
+@{
+    ViewBag.Title = "Account Registration";
+}
+<br />
+<br />
+<br />
+<br />
+<div class="login-form ">
+    <h1>Sign up</h1>
+    <form method="post" asp-action="Register" asp-controller="account">
+        <div asp-validation-summary="All" class="text-white"></div>
+        <div class="form-group">
+            <input id="input" asp-for="FullName" name="FullName" placeholder="Full name">
+            <span class="input-icon" id="input-icon"><i class="ion ion-person"></i></span>
+        </div>
+        <div class="form-group">
+            <input id="input" asp-for="UserName" placeholder="Username" />
+            <span class="input-icon" id="input-icon"><i class="ion ion-person"></i></span>
+            <div asp-validation-for="UserName" class="text-white"></div>
+        </div>
+        <div class="form-group">
+            <input id="input" asp-for="Email" placeholder="Email Addresse" />
+            <span class="input-icon" id="input-icon"><i class="ion-at"></i></span>
+            <div asp-validation-for="Email" class="text-white"></div>
+        </div>
+        <div class="form-group">
+            <input id="input" asp-for="Password" placeholder="Password" />
+            <span class="input-icon" id="input-icon"><i class="ion-locked"></i></span>
+            <div asp-validation-for="Password" class="text-white"></div>
+        </div>
+        <div class="form-group">
+            <input id="input" asp-for="ConfirmPassword" placeholder="Confirm Password" />
+            <span class="input-icon" id="input-icon"><i class="ion-locked"></i></span>
+            <div asp-validation-for="ConfirmPassword" class="text-white"></div>
+        </div>
+        <button class="login-btn" type="submit">Sign up</button>
+    </form>
+</div>
+<br />
+<br />

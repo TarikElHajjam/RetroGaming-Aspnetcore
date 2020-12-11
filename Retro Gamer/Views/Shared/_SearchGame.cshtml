@@ -1,0 +1,116 @@
+﻿@model LandingPageViewModel
+@inject IAuthorizationService authorizationService
+@{
+
+
+    var prevDisabled = !Model.PaginatedList.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.PaginatedList.HasNextPage ? "disabled" : "";
+
+}
+<section id="portfolio" class="section-bg">
+    <div class="container">
+        <header class="section-header">
+            <h3 class="section-title">Games</h3>
+        </header>
+        <div class="row">
+            <div class="col-lg-12">
+                <ul id="portfolio-flters">
+                    <li data-filter="*" class="filter-active">All</li>
+                </ul>
+            </div>
+        </div>
+        <form asp-action="index" asp-controller="home" method="get">
+            <div class="search-Bg">
+                <div class="input-group  m-2">
+                    <input id="searchBar" class="form-control col-10" placeholder="Type here to search for a game..." type="text" name="searchString" />
+                    <button type="submit" class="btn-search" value="Search">
+                        <span class="fa fa-search"></span>
+                    </button>
+                    <input type="submit" href="#portfolio" value="| All games" class="btn-allGames" />
+                </div>
+            </div>
+        </form>
+        <div>
+            <div class="row portfolio-container">
+                @{
+                    if (Model.PaginatedList.Any())
+                    {
+                        foreach (var g in Model.PaginatedList.ToList())
+                        {
+                         
+                                <div class="col-lg-4 col-md-6 portfolio-item filter-card">
+                                    <div class="portfolio-wrap">
+                                        <a asp-action="details" asp-controller="home" asp-route-id="@g.Id">
+                                            <img src="@g.PhotoUrl" class="img-fluid" alt="~/image/noImage.png">
+                                        </a>
+                                        <div id="ProtfolioLinks" class="portfolio-info">
+                                            <h4>@g.Name</h4>
+                                            <div class="link-details">
+                                                @if ((await authorizationService.AuthorizeAsync(User, "GameEditorPolicy")).Succeeded)
+                                                {
+                                                    <div>
+                                                        <a asp-action="edit" asp-controller="home" asp-route-id="@g.Id"
+                                                           title="Edit" class="btn-edit">Edit&nbsp;&nbsp;<i class="ion-edit"></i></a>
+                                                        <p class="text-black-50 d-inline-block">&nbsp;|&nbsp;</p>
+                                                        <a asp-action="delete" asp-controller="home" asp-route-id="@g.Id"
+                                                           title="Delete" class="btn-delete">Delete&nbsp;&nbsp;<i class="ion-android-delete"></i></a>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+
+                                                    <a asp-action="create" asp-controller="memories" asp-route-id="@g.Id"
+                                                       title="Share a Memory">Memory&nbsp;&nbsp;<i class="fa fa-keyboard-o"></i></a>
+                                                    <p class="text-black-50 d-inline-block">&nbsp;|&nbsp;</p>
+                                                    <a asp-action="details" asp-controller="home" asp-route-id="@g.Id" title="More Details">
+                                                        Details&nbsp;&nbsp;
+                                                        <i class="ion ion-android-open"></i>
+                                                    </a>
+
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                          
+                        }
+                    }
+                    else
+                    {
+                        <p>None has been found!<br /><a asp-action="create" asp-controller="home">Click here to add a new game</a></p>
+                    }
+                }
+            </div>
+        </div>
+@if(Model.GameList.Any())
+{
+           <nav aria-label="...">
+            <ul class="pagination justify-content-center">
+                <li class="page-item @prevDisabled">
+                    <a asp-action="index"
+                       asp-route-pageNumber="@(Model.PaginatedList.PageIndex - 1)"
+                       class="page-link">
+                        Previous
+                    </a>
+                </li>
+                @{
+                    for (int i = 1; i <= Model.PaginatedList.TotalPagesNumber; i++)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" asp-route-pageNumber="@i">@i</a>
+                        </li>
+                    }
+                }
+                <li class="page-item @nextDisabled">
+                    <a asp-action="index"
+                       asp-route-pageNumber="@(Model.PaginatedList.PageIndex + 1)"
+                       class="page-link">
+                        Next
+                    </a>
+                </li>
+            </ul>
+        </nav>
+}
+ 
+    </div>
+</section>

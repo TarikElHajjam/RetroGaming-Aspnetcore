@@ -1,0 +1,18 @@
+﻿@model MemoriesEditViewModel
+@{ 
+    ViewBag.Title = "Edit Memory";
+}
+
+<form method="post" asp-controller="Memories" asp-action="Edit">
+    <div asp-validation-summary="All"></div>
+    <div class="card">
+        <div class="card-body">    
+            
+            <textarea class="form-control" asp-for="@Model.Memories.Memory" placeholder="Write here..."></textarea>
+            <span asp-validation-for="@Model.Memories.Memory" class="text-danger"></span>
+        </div>
+        <div class="card-footer">
+            <button type="submit" class="btn btn-outline-primary form-control">Share</button>
+        </div>
+    </div>
+</form>

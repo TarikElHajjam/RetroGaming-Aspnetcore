@@ -1,0 +1,41 @@
+﻿
+@model ListUsersViewModel
+@{
+    ViewBag.Title = "List of users";
+}
+
+<div class="text-center">
+    <h1>@ViewBag.Title</h1>
+    <a asp-action="CreateUser" asp-controller="Administration" class="btn btn-warning">Create a new user</a>
+</div>
+<div class="card-deck">
+
+
+    @if (Model.User.Any())
+    {
+        foreach (var user in Model.User.ToList())
+        {
+            <div class="card shadow-sm m-3" style="min-width: 16rem; max-width: 32%;">
+                <div class="card-header">
+                    ID: @user.Id
+                </div>
+                <div class="card-body">
+                    <h5>
+                        Username: @user.UserName
+                    </h5>
+                    <h5>
+                        Email: @user.Email
+                    </h5>
+                </div>
+                <div class="card-footer">
+                    <a asp-action="EditUser" asp-route-userId="@user.Id" asp-controller="Administration" class="btn btn-primary">Edit</a>
+                    <a asp-action="DeleteUser" asp-route-userId="@user.Id" asp-controller="Administration" class="btn btn-outline-danger">Delete</a>
+                </div>
+            </div>
+
+        }
+    }
+
+</div>
+
+

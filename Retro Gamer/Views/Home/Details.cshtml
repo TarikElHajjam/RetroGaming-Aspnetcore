@@ -1,0 +1,160 @@
+﻿@model HomeDetailsViewModel
+@inject IAuthorizationService authorizationService
+@inject SignInManager<AppUser> signInManager;
+@inject UserManager<AppUser> userManager;
+@{
+    ViewBag.Title = "Game Details";
+    var user = userManager.GetUserId(User);
+}
+
+<div class="section-bg">
+    <div class="portfolio-wrap">
+        <div class="Details">
+            <div>
+                <img src="@Model.Game.PhotoUrl" height="300" alt="No Image" asp-append-version="true" class="card-img" />
+            </div>
+            <div class="text-center text-wrap">
+                <h1 class="text-header">
+                    @Model.Game.Name
+                </h1>
+            </div>
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td>
+                            Genre
+                        </td>
+                        <td>
+                            @Model.Game.Genres
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Description
+                        </td>
+                        <td>
+                            @Model.Game.Description
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Relase date
+                        </td>
+                        <td>
+                            @Model.Game.RelaseDate.Year
+                        </td>
+                    </tr>
+                    <!--Rating-->
+                    @*<tr>
+                <td>
+                    Rating
+                </td>
+                <td>
+                    @{ int i = 1;
+                        while (i <= Model.Game.Rating)
+                        {
+                            <img src="~/image/star.png" />
+                            i++;
+                        }
+                    }
+                </td>*@
+                    @*</tr>*@
+                </tbody>
+            </table>
+            @{
+                @if (signInManager.IsSignedIn(User) && (await authorizationService.AuthorizeAsync(User, "GameEditorPolicy")).Succeeded)
+                {   
+                    <a asp-action="edit" asp-controller="home" asp-route-id="@Model.Game.Id"
+                       title="Edit" class="text-info">Edit&nbsp;&nbsp;<i class="ion-edit"></i></a>
+                    <p  class="text-black-50 d-inline-block">&nbsp;|&nbsp;</p>
+                    <a onclick="Delete('@Model.Game.Id')"
+                       title="Edit" class="text-danger" style="cursor: pointer;">Delete&nbsp;&nbsp;<i class="ion-android-delete"></i></a>
+                }
+            }
+        </div>
+        <div>
+            <br />
+            <div class="card-header" id="SharedMemoriesHeader">Shared Memories</div>
+            <div class="card-body">
+                <form method="post">
+                    @if (signInManager.IsSignedIn(User))
+                    {
+                        <textarea class="form-control" asp-for="@Model.Memories.Memory" placeholder="Type down your Memory here..."></textarea>
+                        <span asp-validation-for="@Model.Memories.Memory" class="text-warning"></span>
+                        <br />
+                        <button type="submit" class="btn btn-primary text-white">Share a Memory</button>
+                    }
+                    else
+                    {
+                        <textarea disabled class="form-control" asp-for="@Model.Memories.Memory" placeholder="Sign up or Login to share a Memory!"></textarea>
+                        <br />
+                        <a asp-action="login" asp-controller="Account" class="btn btn-success">Login</a>
+                    }
+                </form>
+                @{ if (Model.ListMemories.Any())
+                    {
+                        @foreach (var Memory in Model.ListMemories.ToList())
+                        {
+                            @if (Memory.gameId == Model.Game.Id)
+                            {
+                                <hr />
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3 style="display:inline-block;">
+                                            @Memory.UserName
+                                            <span style="font-size: 15px; ">Posted at @Memory.DatePosted</span>
+                                        </h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title">@Memory.Memory</h5>
+                                    </div>
+                                    @if (signInManager.IsSignedIn(User) && Memory.UserId == user )
+                                    {
+                                        <div class="card-footer">
+                                            <div class="input-group">
+                                                <a asp-action="edit" asp-route-Id="@Memory.Id" asp-controller="Memories">Edit</a>
+                                                <p class="text-black-50">&nbsp;|&nbsp;</p>
+                                                <a asp-action="delete" asp-route-Id="@Memory.Id" asp-controller="Memories">Delete</a>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            }
+                        }
+                    }
+                    else
+                    {
+                        <div class="text-white">
+                            Be the first one to share a Memory about you and this game!
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+   function Delete(id){
+        var r = confirm("Are you sure you want to Delete this?");
+        if (r == true) {
+            $.ajax(
+            {
+                type: "POST",
+                url: '@Url.Action("Delete", "home")',
+                data: {
+                    id: id
+                },
+                error: function (result) {
+                    alert("There is a problem, Try Later!");
+                },
+                success: function (result) {
+                    if (result != true) {
+                        window.location.href ="/home/Games";
+                        alert("The game has been deleted!");
+                    }
+                }
+            });
+        }
+    }
+</script>

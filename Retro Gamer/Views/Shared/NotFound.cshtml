@@ -1,0 +1,15 @@
+﻿@model int
+@{ 
+    ViewBag.Title = "Not Found";
+}
+    <body style="background-color:white">
+        <h1 class="text-center m-1">We couldn't find this page.</h1>
+
+
+        <div >
+            <img  class="mx-auto d-block img-fluid" src="~/image/NotFound.jpg"  />
+        </div>
+        <div>
+            <a asp-action="index" asp-controller="home" >Click here to see the list of all games</a>
+        </div>
+    </body>

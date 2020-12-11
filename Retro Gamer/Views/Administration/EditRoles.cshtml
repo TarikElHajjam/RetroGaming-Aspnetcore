@@ -1,0 +1,47 @@
+﻿@model EditRoleViewModel
+
+@{
+    ViewBag.Title = "Edit Role";
+}
+<form method="post" class="m-3">
+    <div class="card">
+        <div class="card-header">
+            <h1>
+                @ViewBag.Title
+            </h1>
+        </div>
+        <div class="card-body">
+            <label asp-for="Id"></label>
+            <input asp-for="Id" disabled class="form-control" />
+            <label asp-for="RoleName"></label>
+            <input asp-for="RoleName" class="form-control" />
+        </div>
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Update</button>
+            <a asp-action="ListRoles" asp-controller="Administration" class="btn btn-outline-danger">Cancle</a>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <h3>Users in this role</h3>
+        </div>
+        <div class="card-body">
+            @if (Model.Users.Any())
+            {
+                foreach (var user in Model.Users)
+                {
+                    <h5 class="card-title">@user</h5>
+
+                }
+            }
+            else
+            {
+                <h5 class="card-title">None at the moment</h5>
+            }
+        </div>
+        <div class="card-footer">
+            <a asp-action="EditUsersInRole" asp-controller="Administration" asp-route-roleId="@Model.Id" class="btn btn-primary">Add Users or remove users</a>
+        </div>
+    </div>
+</form>

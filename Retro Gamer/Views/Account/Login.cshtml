@@ -1,0 +1,62 @@
+﻿@model LoginViewModel
+@inject SignInManager<AppUser> SignInManager
+@{
+    ViewBag.Title = "Login";
+    var returnUrl = @Context.Request.Query["returnUrl"];
+}
+<br />
+<div class="login-form ">
+    <h1>Login</h1>
+    <form method="post" asp-action="login" asp-controller="account" asp-route-returnUrl="@returnUrl">
+        <div asp-validation-summary="All" class="text-white"></div>
+
+        @if (TempData != null)
+        {
+            <p class="text-white mb-2"> @TempData["Message"]</p>
+        }
+        <div class="form-group">
+            <input id="input" type="email" asp-for="Email" name="Email" placeholder="E-mail Address">
+            <span class="input-icon" id="input-icon"><i class="ion-android-mail"></i></span>
+        </div>
+        <div class="form-group">
+            <input id="input" asp-for="Password" placeholder="Password" />
+            <span class="input-icon" id="input-icon"><i class="ion-locked"></i></span>
+            <div asp-validation-for="Password" class="text-white"></div>
+        </div>
+        <div class="form-group">
+            <label asp-for="RememberMe" class="text-white">   </label>
+            <input type="checkbox" asp-for="RememberMe" />
+        </div>
+        <button class="login-btn" type="submit">Login</button>
+    </form>
+    <a class="reset-psw" asp-action="forgotPassword">Forgot your password?</a>
+    <a class="reset-psw" asp-action="register">Doesn't have an account? sign up now!</a>
+    <div class="seperator" style="color:purple"><b>or</b></div>
+    <p>Sign in or Sign up with your google account</p>
+    <!-- Social login buttons -->
+    @{var providers = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+   
+      
+        if (providers.Any())
+        {
+            <form asp-action="ExternalLogin" asp-controller="account" asp-route-returnUrl="@returnUrl" method="post" class="form-horizontal">
+                <div class="social-icon">
+                    @foreach (var provider in providers)
+                    {
+                        <button name="provider"  value="@provider.Name" type="submit"><i class="fa fa-@provider.Name"></i></button>
+
+                    }
+                </div>
+            </form>
+        }
+        else
+        {
+            <div>
+                <p>
+                    We couldn't find any external provider
+                </p>
+            </div>
+            }     
+    }
+</div>
+<br />

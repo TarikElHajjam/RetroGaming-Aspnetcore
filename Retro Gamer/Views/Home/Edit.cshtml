@@ -1,0 +1,84 @@
+﻿@model GameEditViewModel
+@{
+    ViewBag.Title = "Game Edit";
+    var photoPath = "~/image/" + (Model.ExistingPhoto ?? "noImage.png");
+        var trim = Model.ExistingPhoto.Remove(0, 75);
+}
+
+<form enctype="multipart/form-data" asp-controller="home" asp-action="edit" method="post" id="creates" class="mt-5">
+    <input hidden asp-for="Id" />
+    <input hidden asp-for="ExistingPhoto" />
+    <div class="card shadow-sm">
+        <div class="card-header text-center bg-white">
+            <h1>@ViewBag.Title</h1>
+      
+        </div>
+        @*<img class="card-img-top" src="@photoPath"  asp-append-version="true" />*@
+        <div class="card-body"style="background-color:whitesmoke">
+            <div>
+                <label asp-for="Name"></label>
+                <div>
+                    <input asp-for="Name" class="form-control" placeholder="Write the game's name here..." />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+            </div>
+            <div>
+                <label asp-for="Description"></label>
+                <div>
+                    <textarea asp-for="Description" class="form-control" placeholder="Write the game's Description here..."></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+            </div>
+            <div>
+                <label asp-for="Rating"></label>
+                <div>
+                    <input asp-for="Rating" class="form-control" placeholder="Write the game's Rating here..." />
+                    <span asp-validation-for="Rating" class="text-danger"></span>
+                </div>
+            </div>
+            <div>
+                <label asp-for="Genres"></label>
+                <div>
+                    <select asp-for="Genres" class="form-control" asp-items="Html.GetEnumSelectList<Genre>()">
+                        <option>Select type ...</option>
+                    </select>
+                    <span asp-validation-for="Genres" class="text-danger"></span>
+                </div>
+            </div>
+            <div>
+                <label asp-for="Photo"></label>
+                <div>
+                    <div class="custom-file">
+                        <input asp-for="Photo" class="form-control custom-file-input" />
+                        <label class="custom-file-label" >Click here to change photo</label>
+                        <span asp-validation-for="Photo" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <br />
+                <label asp-for="RelaseDate"></label>
+                <div>
+                    <input asp-for="RelaseDate" type="date" class="form-control" />
+                    <span asp-validation-for="RelaseDate" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer bg-white">
+            <button type="submit" class="btn btn-primary" value="save">Update</button>
+            <a asp-action="index" asp-controller="home" class="btn btn-outline-primary">Cancle</a>
+        </div>
+    </div>
+    @section Script {
+        <script>
+            $(document).ready(function () {
+                $('.custom-file-input').on("change", function () {
+                    var fileName = $(this).val().split("\\").pop();
+                    $(this).next('.custom-file-label').html(fileName);
+                });
+            });
+        </script>
+    }
+</form>
+

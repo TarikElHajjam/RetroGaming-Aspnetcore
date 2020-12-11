@@ -1,0 +1,213 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<AppUser> signInManager;
+<html>
+<head>
+
+    <environment include="Development">
+        <meta name="viewport" content="width=device-width" />
+
+        <link href="~/img/arcade-logo.png" asp-append-version="true" rel="icon">
+        <link href="~/img/arcade-logo.png" rel="arcade-logo">
+        <!-- Google Fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,500,600,700,700i|Montserrat:300,400,500,600,700"
+              rel="stylesheet">
+
+        <!-- Bootstrap CSS File -->
+        <link href="~/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Libraries CSS Files -->
+        <link href="~/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+        <link href="~/lib/animate/animate.min.css" rel="stylesheet">
+        <link href="~/lib/ionicons/css/ionicons.min.css" rel="stylesheet">
+        <link href="~/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+        <link href="~/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+        <link href="~/css/style.css" rel="stylesheet">
+    </environment>
+
+    <environment exclude="Development">
+        <meta name="viewport" content="width=device-width" />
+        <link href="~/img/arcade-logo.png" asp-append-version="true" rel="icon">
+        <link href="~/img/arcade-logo.png" rel="arcade-logo">
+        <!-- Google Fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,500,600,700,700i|Montserrat:300,400,500,600,700"
+              rel="stylesheet">
+        <!--Bootstrap-->
+        <link rel="stylesheet"
+              integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+              crossorigin="anonymous"
+              href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position"
+              asp-fallback-test-value="absolute"
+              asp-suppress-fallback-integrity="true" />
+        <!-- Libraries CSS Files -->
+        <link href="~/lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+        <link href="~/lib/animate/animate.min.css" rel="stylesheet">
+        <link href="~/lib/ionicons/css/ionicons.min.css" rel="stylesheet">
+        <link href="~/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+        <link href="~/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+        <link href="~/css/style.css" rel="stylesheet">
+    </environment>
+
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+
+    <header id="header">
+        <div class="container">
+            <div class="logo float-left">
+
+                <h1 class="text-light">
+                    <a asp-action="index" asp-controller="home" class="scrollto">
+                        <span>RETRO GAMING</span>
+                    </a>
+                </h1>
+            </div>
+
+            <nav class="main-nav float-right d-none d-lg-block">
+                <ul>
+                    <li><a asp-action="index" asp-controller="home">Home</a></li>
+                    <li><a asp-action="Games" asp-controller="home">Games</a></li>
+                    @if (signInManager.IsSignedIn(User))
+                    {
+                        if (signInManager.IsSignedIn(User) && User.IsInRole("Super Admin"))
+                        {
+                            <li><a asp-action="UserProfile" asp-controller="Account">@User.Identity.Name</a></li>
+                            <li><a asp-action="Create" asp-controller="home">Add Game</a></li>
+                        }
+                        else
+                        {
+                            <li><a asp-action="UserProfile" asp-controller="Account">@User.Identity.Name</a></li>
+                            <li><a asp-action="Create" asp-controller="PendingGame">Add Game</a></li>
+                        }
+                        <li>
+                            <form method="post" asp-controller="account" asp-action="logout">
+                                <input class="btn-logout" type="submit" value="Logout" />
+                            </form>
+                        </li>
+                    }
+                    else
+                    {
+                        <li><a asp-controller="account" asp-action="register">Sign up</a></li>
+                        <li><a asp-controller="account" asp-action="login">Log in</a></li>
+                    }
+                    @if (signInManager.IsSignedIn(User) && User.IsInRole("Super Admin"))
+                    {
+                        <li class="drop-down">
+                            <a href="">Manage</a>
+                            <ul>
+                                <li>
+                                    <a asp-controller="Administration"
+                                       asp-action="ListUsers">Users</a>
+                                </li>
+                                <li>
+                                    <a asp-controller="Administration"
+                                       asp-action="ListRoles">Roles</a>
+                                </li>
+                                <li>
+                                    <a asp-controller="Administration"
+                                       asp-action="ManagePendingGames">Pending Games</a>
+                                </li>
+                            </ul>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <div>
+        <br />
+        <div class="container">
+            <br />
+            <br />
+            @RenderBody()
+            <br />
+            <footer id="footer" class="section-bg">
+                <div class="footer-top">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="footer-info">
+                                            <h3>Retro Gaming</h3>
+                                            <p>
+                                                Retro gaming is a plateform where you share memories of your childhood when you used to spend
+                                                countless days and night playing arcade games!
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="col-lg-6">
+                                            <div class="form">
+                                                <div>
+                                                    <h4>Contact Me</h4>
+                                                    <p>
+                                                        <strong>Email:</strong>&nbsp;TarikElHajjam@outlook.com<br>
+                                                    </p>
+                                                </div>
+                                                <div class="social-links">
+                                                    <a style="position: relative;" href="https://github.com/TarikElHajjam"><i class="fa fa-github"></i></a>
+                                                    <a style="position: relative;" href="https://www.linkedin.com/in/tarik-el-hajjam-516a641bb" class="linkedin"><i class="fa fa-linkedin"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form">
+                                    <h4>About me</h4>
+                                    <p>
+                                        My name is Tarik El Hajjam, I'm a backend web developer from Casablanca; Morocco.
+                                        I use Asp.Net core for web developement and for this web application I used Asp.net core 3.1 MVC to build it from scratch.
+                                        If you are intersted in working togheter on a project, please feel free to leave me an email at TarikElHajjam@outlook.com,
+                                        I'll get back to you as soon as I can!
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="copyright">
+                        &copy; Copyright <strong>Retro Gaming</strong>. All Rights Reserved
+                    </div>
+                    <!-- Credits-->
+                    @*<div class="credits">*@
+                    <!--
+                      All the links in the footer should remain intact.
+                      You can delete the links only if you purchased the pro version.
+                      Licensing information: https://bootstrapmade.com/license/
+                      Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=Rapid
+                    -->
+                    @*Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+                        </div>*@
+                </div>
+            </footer>
+        </div>
+    </div>
+    <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
+    <div id="preloader"></div>
+    <script src="~/lib/jquery/jquery.min.js"></script>
+    <script src="~/lib/jquery/jquery-migrate.min.js"></script>
+    <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/easing/easing.min.js"></script>
+    <script src="~/lib/mobile-nav/mobile-nav.js"></script>
+    <script src="~/lib/wow/wow.min.js"></script>
+    <script src="~/lib/waypoints/waypoints.min.js"></script>
+    <script src="~/lib/counterup/counterup.min.js"></script>
+    <script src="~/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="~/lib/isotope/isotope.pkgd.min.js"></script>
+    <script src="~/lib/lightbox/js/lightbox.min.js"></script>
+    <!-- Template Main Javascript File -->
+    <script src="~/js/main.js"></script>
+    <script src="~/lib/jquery/jquery.js"></script>
+    <script src="~/lib/jquery-validate/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+
+    @RenderSection("Script", required: false)
+
+</body>
+</html>

@@ -1,0 +1,17 @@
+﻿@model EditUserViewModel
+@{
+    ViewBag.Title = "Delete User";
+
+}
+<h1>@ViewBag.Title</h1>
+<form method="post">
+    <div class="alert alert-danger">
+        <div>
+            <h3 class="text-dark">Are you sure you want to delete @Model.Email?</h3>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-danger" >Confirme</button>
+            <a asp-action="ListUsers" class="btn btn-outline-primary">Cancle</a>
+        </div>
+    </div>
+</form>

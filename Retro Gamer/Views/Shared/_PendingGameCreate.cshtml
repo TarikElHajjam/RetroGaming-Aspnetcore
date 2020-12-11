@@ -1,0 +1,70 @@
+﻿@model PendingGameCreateViewModel
+@{
+    ViewBag.Tile = "Game Create";
+}
+<form enctype="multipart/form-data" asp-controller="PendingGame" asp-action="create" method="post" class="mt-5">
+
+    <div class="card shadow-sm">
+        <div class="card-header" style="background-color:white">
+            <h1>@ViewBag.Title</h1>
+        </div>
+        @*<img class="card-img-top" src="@photoPath"  asp-append-version="true" />*@
+        <div class="card-body" style="background-color:whitesmoke">
+
+            <div>
+                <label asp-for="Name"></label>
+                <div>
+                    <input asp-for="Name" class="form-control" placeholder="Write the game's name here..." />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+            </div>
+            <div>
+                <label asp-for="Description"></label>
+                <div>
+                    <textarea asp-for="Description" class="form-control" placeholder="Write the game's Description here..."></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+            </div>
+            <div>
+                <label asp-for="Rating"></label>
+                <div>
+                    <input asp-for="Rating" class="form-control" placeholder="Write the game's Rating here..." />
+                    <span asp-validation-for="Rating" class="text-danger"></span>
+                </div>
+            </div>
+            <div>
+                <label asp-for="Genres"></label>
+                <div>
+                    <select asp-for="Genres" class="form-control" asp-items="Html.GetEnumSelectList<Genre>()">
+                        <option>Select type ...</option>
+                    </select>
+                    <span asp-validation-for="Genres" class="text-danger"></span>
+                </div>
+            </div>
+            <div>
+                <label asp-for="Photo"></label>
+                <div>
+                    <div class="custom-file">
+                        <input asp-for="Photo" class="form-control custom-file-input" />
+                        <label class="custom-file-label">Click here to add a photo</label>
+                        <span asp-validation-for="Photo" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <label asp-for="RelaseDate"></label>
+                <div>
+                    <input asp-for="RelaseDate" type="date" class="form-control" />
+                    <span asp-validation-for="RelaseDate" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer" style="background-color:white">
+            <button type="submit" class="btn btn-primary" value="save">Create</button>
+            <a asp-action="index" asp-controller="home" class="btn btn-outline-primary">Cancle</a>
+        </div>
+    </div>
+</form>
+
+

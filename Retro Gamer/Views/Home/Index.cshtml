@@ -1,0 +1,143 @@
+﻿@inject SignInManager<AppUser> signInManager;
+@inject IAuthorizationService authorizationService
+@model LandingPageViewModel
+
+@{
+    ViewBag.Title = "Home";
+}
+<!--==========================
+ Intro Section
+============================-->
+<section id="intro" class="clearfix">
+    <div class="container d-flex h-100">
+        <div class="row justify-content-center align-self-center">
+            <div class="col-md-6 intro-info order-md-first order-last">
+                <h2>Share memories<br>of your <span>childhood!</span></h2>
+                <p style="color:rgb(71, 71, 71)">
+                    Days and nights had been spend infront of the glowing screen, fighting space invaders, share with us those
+                    memories
+                </p>
+                <div>
+                    <a href="#services" class="btn-get-started scrollto">Get Started</a>
+
+                </div>
+            </div>
+          
+            <div class="col-md-6 intro-img order-md-last order-first">
+
+                <img src="~/img/Aracde.png" alt="" class="img-fluid">
+            </div>
+        </div>
+
+    </div>
+</section>
+<!-- #intro -->
+<main id="main">
+    <!--==========================
+      How to use Section
+    ============================-->
+    <section id="services" class="section-bg">
+        <div class="container">
+
+            <header class="section-header">
+                <h3>Easy to use</h3>
+                <p>Follow these steps to learn how to share a Memory.</p>
+            </header>
+
+            <div class="row">
+                <div class="col-md-6 col-lg-4 wow bounceInUp" data-wow-duration="1.4s">
+                    <div class="box">
+                        <div class="icon">
+                            <i class="fa fa-search"></i>
+                        </div>
+                        <h4 class="title">Search</h4>
+                        <p class="description">
+                            Select one of the many games that are at your disposal
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 wow bounceInUp" data-wow-duration="1.4s">
+                    <div class="box">
+                        <div class="icon">
+                            <i class="fa fa-keyboard-o"></i>
+                        </div>
+                        <h4 class="title">Memory</h4>
+                        <p class="description">
+                            Type down your favorite childhood Memory with that game
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4 wow bounceInUp" data-wow-delay="0.1s" data-wow-duration="1.4s">
+                    <div class="box">
+                        <div class="icon">
+                            <i class="fa fa-share"></i>
+                        </div>
+                        <h4 class="title">Share</h4>
+                        <p class="description">
+                            Click the share button to share your Memory with the world
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--==========================
+      Games gallery Section
+    ============================-->
+    <partial name="_SearchGame" />
+    <!-- #Games -->
+    <!--==========================
+    Recently shared memories section
+     ============================-->
+    @{
+        if (Model.GetAllMemories.Any())
+        {
+            <section id="testimonials">
+                <header class="section-header">
+                    <h3>Recently shared memories</h3>
+                </header>
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="owl-carousel testimonials-carousel wow fadeInUp">
+                            @{ var model = Model.GetAllMemories.TakeLast(3).ToList();
+
+                                foreach (var w in model.ToList())
+                                {
+                                    var gam = Model.GameList.Where(x => x.Id == w.gameId).ToList();
+
+                                    foreach (var g in gam)
+                                    {
+                                        <div class="testimonial-item">
+                                            <img src="@g.PhotoUrl" height="160" class="testimonial-img" alt="">
+                                            <h3>@w.UserName</h3>
+                                            <h4>@g.Name</h4>
+                                            <p>
+                                                @w.Memory
+                                            </p>
+                                        </div>
+                                    }
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </section>
+        }
+    }
+
+</main>
+<!--This script lets the scroll position stays on the same position when the page gets refreshed!-->
+<script>
+    document.addEventListener("DOMContentLoaded", function (event) {
+        var scrollpos = sessionStorage.getItem('scrollpos');
+        if (scrollpos) {
+            window.scrollTo(0, scrollpos);
+            sessionStorage.removeItem('scrollpos');
+        }
+    });
+
+    window.addEventListener("beforeunload", function (e) {
+        sessionStorage.setItem('scrollpos', window.scrollY);
+    });
+</script>

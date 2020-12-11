@@ -1,0 +1,18 @@
+﻿@model GameDeleteViewModel
+@{
+    ViewBag.Title = "Game Delete";
+
+}
+    <body style="background-color:white">
+        <form method="post">
+            <div class="alert alert-danger m-2">
+                <h3>
+                    Are you sure you want to delete @Model.Name?
+                </h3>
+            </div>
+            <div >
+                <a asp-action="index" asp-controller="home" class="btn btn-primary m-1">No</a>
+                <button type="submit" class="btn btn-outline-danger">Yes</button>
+            </div>
+        </form>
+    </body>

@@ -1,0 +1,18 @@
+﻿
+@if (ViewBag.ErrorTitle != null)
+{
+    <h1 class="text-danger">@ViewBag.ErrorTitle</h1>
+    <h6 class="text-danger">@ViewBag.ErrorMessage</h6>
+}
+else if (ViewBag.ErrorTitle == null && ViewBag.ErrorMessage != null)
+{
+
+    <h2 class="text-danger">@ViewBag.ErrorMessage</h2>
+
+}
+else
+{
+<h3 class="text-danger">
+    An unexpected error has occured while processing your request, please try again later.
+</h3>
+}

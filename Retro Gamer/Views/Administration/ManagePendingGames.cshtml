@@ -1,0 +1,113 @@
+﻿<style>
+    td {
+        color: black;      
+        text-align: center;
+        font-size: 90%;
+        word-break: break-word;        
+    }
+    tr {
+     
+        color: black;
+    }
+</style>
+
+@model IEnumerable<ManagePendingGamesViewModel>
+@{
+    ViewBag.Title = "Pending Games";
+}
+<div class="container-fluid">
+    <br />
+    <br />
+    <br />
+    @if (TempData != null)
+    {
+        <p class="text-success text-center">@TempData["Approved"]</p>
+    }
+    @if (Model.Any())
+    {
+        <form enctype="multipart/form-data" asp-action="ManagePendingGames" asp-controller="Administration" method="post">
+            <button type="submit" class="btn btn-primary form-control">Approve</button>
+            <div class="table-responsive">
+                <table class="table table-sm table-bordered">
+                    <thead>
+                        <tr>
+                            <th>
+                                Id
+                            </th>
+
+                            <th>
+                                User
+                            </th>
+                            <th>
+                                Title
+                            </th>
+                            <th>
+                                Genre
+                            </th>
+                            <th>
+                                Description
+                            </th>
+                            <th>
+                                Rating
+                            </th>
+                            <th>
+                                Photo
+                            </th>
+                            <th>
+                                Release Date
+                            </th>
+                            <th>
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var pg in Model.ToList())
+                        {
+
+                            <tr>
+                                <td>
+                                    @pg.GameId
+
+                                </td>
+                                <td>
+                                    @pg.UserId
+                                </td>
+                                <td>
+                                    @pg.Name
+                                </td>
+                                <td>
+                                    @pg.Genres
+                                </td>
+                                <td>
+                                    @pg.Description
+                                </td>
+                                <td>
+                                    @pg.Rating
+                                </td>
+                                <td>
+                                    <img src="@pg.PhotoUrl" class="img-thumbnail" style="max-height: 50px;" />
+                                </td>
+                                <td>
+                                    @pg.RelaseDate
+                                </td>
+                                <td>
+
+                                    <input type="checkbox" asp-for="@pg.IsSelected" name="gameId" value="@pg.GameId " />
+                                    <span asp-validation-for="@pg.IsSelected"></span>
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </form>
+
+    }
+    else
+    {
+        <h1 class="text-center text-dark">None has been added yet!</h1>
+    }
+</div>

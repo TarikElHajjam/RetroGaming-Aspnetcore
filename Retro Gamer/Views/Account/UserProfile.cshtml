@@ -1,0 +1,94 @@
+﻿@model UserProfileViewModel
+@inject UserManager<AppUser> userManager;
+@{
+    ViewBag.Title = "User Profile";
+
+    var user = await userManager.GetUserAsync(User);
+}
+<br />
+<br />
+
+<div>
+
+    <div class="card">
+        <div class="card-header text-center">
+            <h1> User Profile</h1>
+        </div>
+
+        <div class="card-body">
+            @{
+                if (TempData["Passowrd Changed"] != null ||
+                    TempData["Updated"] != null ||
+                    TempData["Password had been added"] != null ||
+                     TempData["ChangeEmail"] != null ||
+                     TempData["EmailHasChanged"] != null)
+                {
+                    <p class="text-success">@TempData["Updated"]</p>
+                    <p class="text-success">@TempData["Passowrd Changed"]</p>
+                    <p class="text-success">@TempData["Password had been added"]</p>
+                    <p class="text-success">@TempData["ChangeEmail"]</p>
+                    <p class="text-success">@TempData["EmailHasChanged"]</p>
+                }
+            }
+            <form method="post" asp-action="userProfile" asp-controller="account">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <h4>Full name</h4>
+                <input asp-for="FullName" class="form-control" placeholder="Add your full name" />
+                <span asp-validation-for="FullName" class="text-danger"></span>
+                <hr />
+                <h4>Username</h4>
+                <input asp-for="UserName" class="form-control" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+                <hr />
+                <h4>Email</h4>
+                <input disabled asp-for="Email" class="form-control" />
+                <a asp-action="ChangeEmail" asp-controller="Account">Change Email</a>
+                <hr />
+                @if (!await userManager.HasPasswordAsync(user))
+                {
+                    <h4>Passowrd</h4>
+                    <a asp-action="AddPasswordExternalLogin" asp-controller="Account">Add passowrd</a>
+                }
+                else
+                {
+                    <h4>Passowrd</h4>
+                    <a asp-action="ChangePassword" asp-controller="Account">Change passowrd</a>
+                }
+
+                <div class="card card-footer">
+                    <button type="submit" class="btn btn-primary form-control">Update</button>
+                </div>
+            </form>
+            <hr />
+            <h4>Shared memories</h4>
+            <div id="Memories">
+                @{ if (Model.MemoriesList.Any())
+                    {
+                        @foreach (var m in Model.MemoriesList.ToList())
+                        {
+                            <div class="card mb-2 ">
+
+                                <p class="card-body text-dark"> @m.Memory</p>
+
+                                <div class="card-footer">
+                                    <a asp-action="details" asp-controller="home"
+                                       asp-route-Id="@m.gameId">Visit</a>
+                                    <p class="text-black-50 d-inline">&nbsp;|&nbsp;</p>
+                                    <a asp-action="Edit" class="text-primary" asp-controller="memories"
+                                       asp-route-Id="@m.Id">Edit</a>
+                                    <p class="text-black-50 d-inline">&nbsp;|&nbsp;</p>
+                                    <a asp-action="delete" class="text-danger" asp-controller="memories"
+                                       asp-route-Id="@m.Id">Delete</a>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p class="text-dark">You have not shared any Memory yet!</p>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,82 @@
+﻿
+@model MemoriesCreateViewModel
+@{
+
+    ViewBag.Title = "Memory Create";
+
+}
+<div class="MemorieCard">
+    <form method="post" asp-controller="Memories" asp-action="Create">
+        <div asp-validation-summary="All"></div>
+        <div class="card">
+            <div class="card-header text-center" style="font-size:30px; font-weight: 400;">
+                Write a Memory
+            </div>
+            <div class="card-body">
+                <img src="@Model.Game.PhotoUrl" asp-append-version="true" class="card-img" style="float:left; overflow:inherit;  max-width: 350px; margin: auto; padding: 15px; position: relative" />
+                <div class="table">
+                    <table class="table">
+                        <tbody>
+                            <tr class="table-borderless">
+                                <td>
+                                    Title
+                                </td>
+                                <td>
+                                    @Model.Game.Name
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Genre
+                                </td>
+                                <td>
+                                    @Model.Game.Genres
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Description
+                                </td>
+                                <td>
+                                    @Model.Game.Description
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Relase date
+                                </td>
+                                <td>
+                                    @Model.Game.RelaseDate.Year
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Rating
+                                </td>
+                                <td>
+                                    @{ int i = 1;
+                                        while (i <= Model.Game.Rating)
+                                        {
+                                            <img src="~/image/star.png" />
+                                            i++;
+                                        }
+
+                                    }
+                                </td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+                </div>
+                <hr />
+                <br />
+                <textarea class="form-control" asp-for="@Model.Memory" placeholder="Write here..." autofocus style="max-width: 716px; position:relative"></textarea>
+                <span asp-validation-for="Memory" class="text-danger"></span>
+            </div>
+            <div class="card-footer">
+                <button type="submit" class="btn btn-outline-primary form-control">Share</button>
+            </div>
+        </div>
+    </form>
+</div>
