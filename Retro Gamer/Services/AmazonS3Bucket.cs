@@ -24,8 +24,8 @@ namespace Retro_Gamer.Services
         public async Task<string> UploadImage(IFormFile file)
         {
 
-            await using var newMemoryStream = new MemoryStream();
-            file.CopyTo(newMemoryStream);
+            var newMemoryStream = new MemoryStream();
+            await file.CopyToAsync(newMemoryStream);
             string uniqueName = Guid.NewGuid().ToString() + "_" + file.FileName;
             var uploadRequest = new TransferUtilityUploadRequest
             {
