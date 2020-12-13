@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "Game Create";
 }
-@if (signInManager.IsSignedIn(User) && User.IsInRole("Super Admin"))
+@if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
 {
     <form enctype="multipart/form-data" asp-controller="home" asp-action="create" method="post" class="mt-5">
       

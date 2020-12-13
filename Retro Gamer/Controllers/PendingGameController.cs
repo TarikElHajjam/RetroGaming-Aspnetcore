@@ -31,7 +31,7 @@ namespace Retro_Gamer.Controllers
         {
             var user = await userManager.GetUserAsync(User);
             if(user !=null && signInManager.IsSignedIn(User) && 
-                await userManager.IsInRoleAsync(user,"Super Admin"))
+                await userManager.IsInRoleAsync(user,"Admin"))
             {
                 return RedirectToAction("Create", "Home");
             }

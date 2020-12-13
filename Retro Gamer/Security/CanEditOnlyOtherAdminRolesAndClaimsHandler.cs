@@ -32,7 +32,7 @@ namespace Retro_Gamer.Security
             string user = "56f26c9b-bd7b-42d2-80f7-d29ced92ba9d";
             string adminIdBeingEdited = authFilterContext.HttpContext.Request.Query["userId"];
 
-            if (context.User.IsInRole("Super Admin") &&
+            if (context.User.IsInRole("Admin") &&
                 context.User.HasClaim(claim => claim.Type == "Edit Role" && claim.Value == "true") &&
                 adminIdBeingEdited.ToLower() != loggedInAdminId.ToLower() && adminIdBeingEdited.ToLower() != user.ToLower())
             {

@@ -59,7 +59,7 @@ namespace Retro_Gamer
             services.AddAuthorization(option =>
             {
                 option.AddPolicy("SuperAdminPolicy",
-                    policy => policy.RequireRole("Super Admin")
+                    policy => policy.RequireRole("Admin")
                                     .RequireClaim("Create Role", "true")
                                     .RequireClaim("Edit Role", "true")
                                     .RequireClaim("Delete Role", "true"));

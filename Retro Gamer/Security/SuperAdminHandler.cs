@@ -11,7 +11,7 @@ namespace Retro_Gamer.Security
     //    protected override Task HandleRequirementAsync(AuthorizationHandlerContext context,
     //                                       ManageAdminRolesAndClaimsRequirement requirement)
     //    {
-    //        if (context.User.IsInRole("Super Admin"))
+    //        if (context.User.IsInRole("Admin"))
     //        {
     //            context.Succeed(requirement);
     //        }

@@ -120,7 +120,7 @@ namespace Retro_Gamer.Controllers
             var user = await userManager.GetUserAsync(HttpContext.User);
             if (user != null && signInManager.IsSignedIn(User))
             {
-                if (!(await userManager.IsInRoleAsync(user, "Super Admin")))
+                if (!(await userManager.IsInRoleAsync(user, "Admin")))
                 {
                     return RedirectToAction("Create", "PendingGame");
                 }

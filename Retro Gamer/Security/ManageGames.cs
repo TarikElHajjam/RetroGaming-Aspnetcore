@@ -26,7 +26,7 @@ namespace Retro_Gamer.Security
                 return Task.CompletedTask;
             }
 
-            if (context.User.IsInRole("Super Admin") || context.User.IsInRole("Moderator"))
+            if (context.User.IsInRole("Admin") || context.User.IsInRole("Moderator"))
             {
                 if (context.User.HasClaim(claim => claim.Type == "Create Game" && claim.Value == "true") &&
                     context.User.HasClaim(claim => claim.Type == "Edit Game" && claim.Value == "true") &&

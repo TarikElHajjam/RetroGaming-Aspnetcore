@@ -70,7 +70,7 @@
                     <li><a asp-action="Games" asp-controller="home">Games</a></li>
                     @if (signInManager.IsSignedIn(User))
                     {
-                        if (signInManager.IsSignedIn(User) && User.IsInRole("Super Admin"))
+                        if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
                         {
                             <li><a asp-action="UserProfile" asp-controller="Account">@User.Identity.Name</a></li>
                             <li><a asp-action="Create" asp-controller="home">Add Game</a></li>
@@ -91,7 +91,7 @@
                         <li><a asp-controller="account" asp-action="register">Sign up</a></li>
                         <li><a asp-controller="account" asp-action="login">Log in</a></li>
                     }
-                    @if (signInManager.IsSignedIn(User) && User.IsInRole("Super Admin"))
+                    @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
                     {
                         <li class="drop-down">
                             <a href="">Manage</a>

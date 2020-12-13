@@ -33,7 +33,7 @@ namespace Retro_Gamer.Services
                 Key = uniqueName,
                 ///Bucket name
                 BucketName = "Bucket name",
-                CannedACL = S3CannedACL.PublicReadWrite,
+                CannedACL = S3CannedACL.PublicRead
             };
 
             var fileTransferUtility = new TransferUtility(s3Client);
