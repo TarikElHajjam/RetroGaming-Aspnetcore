@@ -1,4 +1,4 @@
-﻿@model HomeDetailsViewModel
+﻿@model GameDetailsViewModel
 @inject IAuthorizationService authorizationService
 @inject SignInManager<AppUser> signInManager;
 @inject UserManager<AppUser> userManager;
@@ -91,12 +91,11 @@
                         <a asp-action="login" asp-controller="Account" class="btn btn-success">Login</a>
                     }
                 </form>
-                @{ if (Model.ListMemories.Any())
+                @{ if (Model.AllMemories.Any())
                     {
-                        @foreach (var Memory in Model.ListMemories.ToList())
+                        @foreach (var Memory in Model.AllMemories.ToList())
                         {
-                            @if (Memory.gameId == Model.Game.Id)
-                            {
+                           
                                 <hr />
                                 <div class="card">
                                     <div class="card-header">
@@ -119,7 +118,6 @@
                                         </div>
                                     }
                                 </div>
-                            }
                         }
                     }
                     else

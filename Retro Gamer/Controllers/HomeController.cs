@@ -37,6 +37,7 @@ namespace Retro_Gamer.Controllers
             this.signInManager = signInManager;
             this.uploadImage = uploadImage;
         }
+
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> Index(int? pageNumber, string searchString)
@@ -58,34 +59,26 @@ namespace Retro_Gamer.Controllers
         [AllowAnonymous]
         public ViewResult Details(int id)
         {
-            var allMemories = memorieRepository.GetAllMemories();
+    
             var game = gameRepository.GetById(id);
-            var allGames = gameRepository.GetAllGames();
+            var allMemories = memorieRepository.GetAllMemories().Where(m=>m.gameId == game.Id).ToList();
+        
 
             if (game == null)
             {
                 return View("NotFound");
             }
-            HomeDetailsViewModel model = new HomeDetailsViewModel()
+            GameDetailsViewModel model = new GameDetailsViewModel()
             {
                 Game = game,
-                AllMemories = allMemories,
-                AllGames = allGames,
+                AllMemories = allMemories,               
                 PageTitle = "Game's Details"
             };
-            if (allMemories != null)
-            {
-                foreach (var m in allMemories.ToList())
-                {
-                    model.ListMemories.Add(m);
-                }
-                return View(model);
-            }
             return View(model);
         }
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Details(int id, HomeDetailsViewModel model)
+        public async Task<IActionResult> Details(int id, GameDetailsViewModel model)
         {
             if (ModelState.IsValid)
             {
